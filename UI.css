@@ -1,0 +1,96 @@
+/* ---- Hide Gradio footer and queue status ---- */
+footer, .footer, [class*="footer"], #root footer, [data-testid="block-queue-status"] {
+  display: none !important;
+  height: 0 !important;
+  visibility: hidden !important;
+}
+
+/* ---- Friendly base look for kids (8–14) ---- */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700&display=swap');
+
+:root {
+  --bg: #000000;         /* soft sky */
+  --panel: #000a0f;      /* white cards */
+  --ink: #92a5c0;        /* text */
+  --muted: #6b7280;      /* captions */
+  --brand: #6a5cff;      /* fun purple-blue */
+  --accent: #22c55e;     /* green accent */
+  --border: #000000;
+  --bubble-user: #131c31; /* light blue */
+  --bubble-bot: #3f3f9e;  /* off-white lilac */
+}
+
+.gradio-container { font-family: 'Nunito', system-ui, -apple-system, Segoe UI, Roboto !important; }
+body { background: var(--bg); }
+#app { max-width: 980px; margin: 0 auto; }
+
+/* ---- Header ---- */
+#header { text-align: center; margin-top: 18px; }
+#logo img {
+  width: 84px; height: 84px; border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(106,92,255,0.25);
+}
+#header h1 {
+  margin: 10px 0 6px; font-size: 34px; color: var(--brand);
+}
+#header .tagline {
+  margin: 0 auto; max-width: 780px;
+  color: var(--muted); font-size: 16px;
+}
+
+/* ---- Chat area ---- */
+#chat { background: var(--panel) !important; border: 1px solid var(--border) !important;
+        border-radius: 18px; padding: 8px; }
+
+.gr-chatbot { background: transparent !important; }
+.gr-chatbot .wrap { background: transparent !important; }
+
+/* message bubbles */
+.gr-chatbot-message.user {
+  background: var(--bubble-user) !important;
+  border: 1px solid #dbeafe !important;
+  border-radius: 16px !important;
+  font-size: 16px !important;
+}
+.gr-chatbot-message.bot {
+  background: var(--bubble-bot) !important;
+  border: 1px solid #eaeaff !important;
+  border-radius: 16px !important;
+  font-size: 16px !important;
+}
+
+/* ---- Input row ---- */
+#input-row { margin-top: 10px; }
+#user_input textarea {
+  overflow-y: auto !important;            /* no vertical scrollbar */
+  resize: none;                             /* no drag handle */
+  background: var(--panel) !important;
+  color: var(--ink) !important;
+  border: 2px solid var(--border) !important;
+  border-radius: 14px !important;
+  padding-top: 12px !important;
+}
+#user_input textarea::placeholder { color: #9aa3b2 !important; }
+
+#clear-btn { height: 48px; border-radius: 14px; border: 2px solid var(--border); }
+#clear-btn:hover { border-color: #cbd5e1; }
+
+/* ---- Make scrollbars subtle inside chat ---- */
+#chat ::-webkit-scrollbar { height: 8px; width: 8px; }
+#chat ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+
+
+
+/* Completely hide the microphone input element */
+#mic_btn {
+  display: block !important;     /* required so JS can still target it */
+  position: fixed !important;
+  top: -9999px !important;
+  left: -9999px !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  z-index: -9999 !important;
+}

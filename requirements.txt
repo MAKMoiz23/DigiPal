@@ -1,0 +1,12 @@
+gradio
+langchain-core
+langchain-community
+langchain-ollama
+langchain-chroma
+chromadb
+sentence-transformers
+pydantic
+pypdf
+sqlalchemy
+rank-bm25
+faster-whisper

@@ -62,4 +62,4 @@ This project is licensed under the **MIT License**.
 
 ---
 
-🔥 **Developed by Sardul Ojha** 🚀
+🔥 **Developed by Moiz Khan** 🚀

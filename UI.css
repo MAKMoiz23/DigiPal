@@ -28,7 +28,7 @@ body { background: var(--bg); }
 #header { text-align: center; margin-top: 18px; }
 #logo img {
   width: 84px; height: 84px; border-radius: 20px;
-  box-shadow: 0 6px 20px rgba(106,92,255,0.25);
+  box-shadow: 0 6px 20px rgba(106,92,255,0.25); 
 }
 #header h1 {
   margin: 10px 0 6px; font-size: 34px; color: var(--brand);

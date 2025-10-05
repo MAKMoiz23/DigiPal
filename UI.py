@@ -119,7 +119,7 @@ with gr.Blocks(title="DigiPal", theme=gr.themes.Soft(), css=CSS) as demo:
             lines=1,
             placeholder="Ask about digital safety, cyberbullying, scams, privacy & cookies…",
             container=True,
-            scale=6,  # a bit narrower to make room for mic
+            scale=6,  # a bit narrower to make room for mic.
         )
 
         audio_box = gr.Audio(

@@ -29,13 +29,11 @@ pip install -r requirements.txt
 *(You may need to create a `requirements.txt` file listing dependencies like `gradio`, `langchain`, `ollama`, `sqlite3`, etc.)*
 
 ### 2. Install and Run Ollama
-Ollama is required to run **Llama 3.2** locally. Install it using:
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-```
+Ollama is required to run **Llama 3.2** locally.
+
 Then, download **Llama 3.2**:
 ```bash
-ollama pull llama3
+ollama pull llama3.2:1b
 ```
 
 ### 3. Run the Chatbot

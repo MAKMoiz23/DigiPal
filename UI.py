@@ -161,7 +161,7 @@ with gr.Blocks(title="DigiPal", theme=gr.themes.Soft(), css=CSS) as demo:
         fn=lambda: (gr.update(interactive=True), gr.update(interactive=True)),
         inputs=None,
         outputs=[audio_btn, msg]
-    )
+    )  # re-enable button & textbox
 
     clear.click(lambda: (None, [], None), None, [msg, chatbot, session_id], queue=False)
 

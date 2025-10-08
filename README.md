@@ -1,6 +1,8 @@
 # Document Query Chatbot (RAG-Based)
 
-This repository contains a **RAG-based Document Query Chatbot** powered by **Llama 3.2** from **Ollama**. The chatbot can retrieve answers from uploaded documents using a **hybrid retriever (vector search + BM25)**, rerank results with a **cross-encoder**, maintain **conversational history**, support **function calling**, and **store chat history in SQLite3**.
+This repository contains a **RAG-based Document Query Chatbot** powered by **Google Gemini API**. The chatbot can retrieve answers from uploaded documents using a **hybrid retriever (vector search + BM25)**, rerank results with a **cross-encoder**, maintain **conversational history**, support **function calling**, and **store chat history in SQLite3**.
+
+> **Note**: This project has been migrated from Ollama's Llama 3.2 to Google Gemini API. See [SETUP_GEMINI.md](SETUP_GEMINI.md) for migration details and setup instructions.
 
 ## Features
 - **Hybrid Retrieval**: Uses both **BM25** and **Vector Search** to retrieve relevant document passages.

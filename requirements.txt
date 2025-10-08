@@ -4,7 +4,7 @@ torch==2.8.0+cpu
 gradio
 langchain-core
 langchain-community
-langchain-ollama
+langchain-google-genai
 langchain-chroma
 chromadb
 sentence-transformers
@@ -13,3 +13,4 @@ pypdf
 sqlalchemy
 rank-bm25
 faster-whisper
+python-dotenv

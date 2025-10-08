@@ -1,9 +1,14 @@
-from langchain_ollama import ChatOllama
+from langchain_google_genai import ChatGoogleGenerativeAI
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 from langchain.document_loaders import DirectoryLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from langchain_ollama import OllamaEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_chroma import Chroma
 from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers import EnsembleRetriever 
@@ -31,8 +36,12 @@ warnings.filterwarnings("ignore")
 # Suppress httpx logging
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
-# Initialize the Ollama LLM
-model = ChatOllama(model="llama3.2:1b")
+# Initialize the Google Gemini LLM
+model = ChatGoogleGenerativeAI(
+    model=os.getenv("GOOGLE_MODEL_NAME", "gemini-pro"),
+    google_api_key=os.getenv("GOOGLE_API_KEY"),
+    temperature=0.1
+)
 
 ROOT = Path(__file__).parent
 DOCS_DIR = ROOT / "docs"
@@ -50,7 +59,10 @@ docs = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=50)
 all_splits = text_splitter.split_documents(docs)
 
-embeddings = OllamaEmbeddings(model="nomic-embed-text")
+embeddings = GoogleGenerativeAIEmbeddings(
+    model="models/embedding-001",
+    google_api_key=os.getenv("GOOGLE_API_KEY")
+)
 ### Vector Search and bm25 : Hybrid Retreiver
 vector_store = Chroma(embedding_function=embeddings)
 _ = vector_store.add_documents(documents=all_splits)

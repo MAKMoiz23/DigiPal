@@ -1,20 +1,69 @@
 import uuid
+import os
 from pathlib import Path
 import gradio as gr
 from chat import conversational_rag_chain
+from dotenv import load_dotenv
+import google.generativeai as genai
+
+# Load environment variables
+load_dotenv()
 
 ROOT = Path(__file__).parent
 
 # load external CSS
 CSS = (ROOT / "UI.css").read_text(encoding="utf-8")
 
-# --- Speech-to-text (optional) ---
+# --- Speech-to-text with Gemini ---
 try:
-    from faster_whisper import WhisperModel
-    # STT = WhisperModel("tiny", device="cpu", compute_type="int8")  # fast & lightweight
-    STT = WhisperModel("small", device="cpu", compute_type="int8")  # more accurate than 'tiny'
-except Exception:
-    STT = None  # fallback if STT not installed
+    # Configure Gemini API
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+    
+    # Test if API key is valid
+    if os.getenv("GOOGLE_API_KEY"):
+        STT_AVAILABLE = True
+        print("✅ Gemini Speech-to-Text initialized successfully")
+    else:
+        STT_AVAILABLE = False
+        print("⚠️ Gemini API key not configured - Speech-to-Text disabled")
+except Exception as e:
+    STT_AVAILABLE = False
+    print(f"⚠️ Gemini Speech-to-Text initialization failed: {e}")
+
+def transcribe_with_gemini(audio_path):
+    """
+    Transcribe audio using Google Gemini's multimodal capabilities
+    """
+    if not STT_AVAILABLE:
+        return None
+    
+    try:
+        # Read the audio file
+        with open(audio_path, 'rb') as audio_file:
+            audio_data = audio_file.read()
+        
+        # Create a multimodal model instance
+        model = genai.GenerativeModel(os.getenv("GOOGLE_MODEL_NAME"))
+        
+        # Create audio part for Gemini
+        audio_part = {
+            "mime_type": "audio/wav",  # Gradio typically records as WAV
+            "data": audio_data
+        }
+        
+        # Request transcription
+        prompt = "Please transcribe this audio accurately. Return only the transcribed text without any additional commentary."
+        
+        response = model.generate_content([prompt, audio_part])
+        
+        if response and response.text:
+            return response.text.strip()
+        else:
+            return None
+            
+    except Exception as e:
+        print(f"Gemini transcription error: {e}")
+        return None
 
 def get_response(user_message, chat_history, session_id):
     if not session_id:
@@ -51,33 +100,30 @@ def action(btn, is_busy):
     if btn == 'Speak': return 'Stop'
     else: return 'Speak'
 
-
 def check_btn(btn):
     """Checks for correct button text before invoking transcribe()"""
     return btn != 'Speak'
 
 def transcribe_and_respond(audio_path, chat_history, session_id):
-    """Transcribe mic audio -> text, then reuse get_response."""
+    """Transcribe mic audio -> text using Gemini, then reuse get_response."""
     if not audio_path:
         return "", chat_history, session_id
-    if STT is None:
+    
+    if not STT_AVAILABLE:
         chat_history.append((
             "🎤 (voice)",
-            "Speech-to-text isn't enabled on this computer. Please ask an adult to turn it on, or type your question."
+            "Speech-to-text isn't enabled. Please check that your Google API key is configured in the .env file, or type your question instead."
         ))
         return "", chat_history, session_id
 
-    segments, _ = STT.transcribe(
-        audio_path,
-        language=None,          # or "hi"
-        vad_filter=True,
-        beam_size=5,
-        condition_on_previous_text=False  # helps with long files to avoid drift
-    )
-    text = " ".join(seg.text for seg in segments).strip()
+    # Transcribe using Gemini
+    text = transcribe_with_gemini(audio_path)
+    
     if not text:
-        chat_history.append(("🎤 (voice)", "Sorry, I couldn't hear that. Please try again."))
+        chat_history.append(("🎤 (voice)", "Sorry, I couldn't hear that clearly. Please try again or type your question."))
         return "", chat_history, session_id
+    
+    # Process the transcribed text through the conversational chain
     return get_response(text, chat_history, session_id)
 
 with gr.Blocks(title="DigiPal", theme=gr.themes.Soft(), css=CSS) as demo:
@@ -101,7 +147,6 @@ with gr.Blocks(title="DigiPal", theme=gr.themes.Soft(), css=CSS) as demo:
 
     session_id = gr.State()
     is_busy = gr.State(False)
-
 
     # Chat surface
     chatbot = gr.Chatbot(
@@ -138,11 +183,9 @@ with gr.Blocks(title="DigiPal", theme=gr.themes.Soft(), css=CSS) as demo:
     # Typed input -> answer
     msg.submit(get_response, inputs=[msg, chatbot, session_id], outputs=[msg, chatbot, session_id])
 
-    #When audio button is clicked this determines if should record or not.
+    # When audio button is clicked this determines if should record or not.
     audio_btn.click(fn=action, inputs=[audio_btn, is_busy], outputs=audio_btn).\
                     then(fn=lambda: None, js=click_js())
-                    # then(fn= lambda: gr.update(interactive=False), inputs=None, outputs=audio_btn)
-                    # then(fn=check_btn, inputs=audio_btn).\
     
     # Voice input -> transcribe -> answer (and clear audio after processing)
     audio_box.stop_recording(

@@ -4,10 +4,7 @@ langchain-community
 langchain-google-genai
 langchain-chroma
 chromadb
-sentence-transformers
-pydantic
 pypdf
-sqlalchemy
 rank-bm25
 python-dotenv
 google-generativeai

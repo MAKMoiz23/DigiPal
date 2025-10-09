@@ -182,7 +182,7 @@ with gr.Blocks(title="DigiPal", theme=gr.themes.Soft(), css=CSS) as demo:
 
     with gr.Column(elem_id="footer"):
         gr.HTML("""
-            <p class="developers">Developed by Kashif Khawaja & Moiz Khan</p>
+            <p class="developers">Developed by Kashif Khowaja & Moiz Khan</p>
             <p class="copyright">© 2025 DigiPal. All rights reserved.</p>
         """)
         

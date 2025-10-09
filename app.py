@@ -179,6 +179,13 @@ with gr.Blocks(title="DigiPal", theme=gr.themes.Soft(), css=CSS) as demo:
         with gr.Row():
             audio_btn = gr.Button('Speak')
             clear = gr.Button("Clear", variant="secondary", scale=1, elem_id="clear-btn")
+
+    with gr.Column(elem_id="footer"):
+        gr.HTML("""
+            <p class="developers">Developed by Kashif Khawaja & Moiz Khan</p>
+            <p class="copyright">© 2025 DigiPal. All rights reserved.</p>
+        """)
+        
         
     # Typed input -> answer
     msg.submit(get_response, inputs=[msg, chatbot, session_id], outputs=[msg, chatbot, session_id])

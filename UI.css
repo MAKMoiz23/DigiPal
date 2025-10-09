@@ -94,3 +94,27 @@ body { background: var(--bg); }
   visibility: hidden !important;
   z-index: -9999 !important;
 }
+
+#footer {
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: 30px;
+    /* border-top: 1px solid #e0e0e0;
+    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); */
+}
+
+#footer p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+#footer .developers {
+    font-weight: 600;
+    color: #888;
+}
+
+#footer .copyright {
+    font-size: 13px;
+    color: #888;
+}

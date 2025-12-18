@@ -1,15 +1,10 @@
---extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.8.0+cpu
-
 gradio
 langchain-core
 langchain-community
-langchain-ollama
+langchain-google-genai
 langchain-chroma
 chromadb
-sentence-transformers
-pydantic
 pypdf
-sqlalchemy
 rank-bm25
-faster-whisper
+python-dotenv
+google-generativeai

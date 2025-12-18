@@ -54,10 +54,6 @@ This will launch the **Gradio UI**, allowing users to interact with the chatbot.
 - Improved **retrieval and ranking** strategies.
 - Integration with **external APIs** for function calling.
 - Deployment on **Hugging Face Spaces** or **Streamlit Cloud**.
-
-## License
-This project is licensed under the **MIT License**.
-
 ---
 
 🔥 **Developed by Moiz Khan** 🚀
